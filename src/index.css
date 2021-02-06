@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background:  lightblue url("./components/assets/MountainBackground.jfif") no-repeat fixed center;
+  background-origin: content-box;
+
 }
 
 code {
