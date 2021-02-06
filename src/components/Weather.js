@@ -12,41 +12,40 @@ export default class Weather extends Component {
 
     setLocation(e){
         // e.preventDefault();
-        this.setState({location: e.target.value});
-        // if( this.state.location == "" )
-        //    this.resetAll();
+        if (e.target.value == '')   
+            this.resetAll();
+        else
+            this.setState({location: e.target.value});
     }
 
-    sharon(){
-        const apiRoot = "http://api.openweathermap.org/data/2.5/";
-        const accessKey = 'd4f996892ccf763a96bd4ff8ae0c0687';
-        try{
-            axios
-            .get(`${apiRoot}weather?q=${this.state.location}&units=metric&APPID=${accessKey}`)
-            .then(res => {
-              //  console.log(res.data)
-              this.setState({temp:res.data.main.temp , icon: res.data.weather[0].icon, sys:res.data.sys.country })
-              console.warn = () => {}
-            })
-               // .catch(errorr =>  this.setState({location : "Enter "}) )
-            // .catch( 
-            //     this.setState({location : "try again"})
-            // )
-
-        }
-        catch(error){console.error(error)}
+    search = (e)=>{
+      
+        if (e.key  === "Enter" || e.code  === "Enter") {
+            e.preventDefault();
+            // console.log(e.key)
+            const apiRoot = "https://api.openweathermap.org/data/2.5/";
+            const accessKey = 'd4f996892ccf763a96bd4ff8ae0c0687';
+            try{
+                axios
+                .get(`${apiRoot}weather?q=${this.state.location}&units=metric&APPID=${accessKey}`)
+                .then(res => {
+                //  console.log(res.data)
+                this.setState({temp:res.data.main.temp , icon: res.data.weather[0].icon, sys:res.data.sys.country })
+                console.warn = () => {}
+                })
+                .catch(errorr =>  this.setState({location : "TRY AGAIN "}) )
+            }
+            catch(error){console.error(error)}
+           
+        } 
     }
 
-     search = (e) => {         
-        if (e.code == "Enter") 
-            this.sharon()
-      }
 
 render() {
-console.log(this.state.location.length)
+//console.log(this.state.location.length)
     return (
         <div className="search-input">
-            <input type="text" placeholder="Search by location..." onChange={e=>this.setLocation(e)} onKeyPress={e=>this.search(e)}  />
+            <input type="text" placeholder="Search by location..." onChange={e=>this.setLocation(e)} onKeyPress={ e=> this.search(e)}  />
             {this.state.location !="" && this.state.temp !=null ? 
             <span className="serach-output">
                 {this.state.location}, <span> {this.state.sys} </span> 
